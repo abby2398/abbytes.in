@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leveraging AI in Large-Scale Government Security Audits — Abbytes</title>
+  <meta name="description" content="Building CyberDrishti — an NLP and OCR-powered pipeline to automate detection of exposed credentials, PII, and misconfigurations across thousands of Indian government domains." />
+  <meta name="keywords" content="AI cybersecurity audits, NLP security scanning, spaCy NER credentials, OCR security, government domain audit, CERT-IN audit automation, CyberDrishti" />
+  <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
+  <link rel="canonical" href="https://abbytes.in/blog/ai-in-security-audits.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Leveraging AI in Large-Scale Government Security Audits" />
+  <meta property="og:description" content="Building an NLP and OCR pipeline to automate detection of exposed credentials and PII across thousands of government domains at scale." />
+  <meta property="og:url" content="https://abbytes.in/blog/ai-in-security-audits.html" />
+  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li><li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+      <a href="./index.html" class="post-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>All Posts</a>
+
+      <div class="post-header">
+        <span class="post-tag">AI + Security</span>
+        <h1 class="post-title">Leveraging AI in Large-Scale Government Security Audits</h1>
+        <div class="post-meta">
+          <span>Mohd Abdullah Khan</span><span>·</span>
+          <time datetime="2025-01-01">January 2025</time><span>·</span><span>9 min read</span>
+        </div>
+      </div>
+
+      <div class="post-hero-img blog-img--blue">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="M2 12h4M18 12h4M12 2v4M12 18v4"/></svg>
+      </div>
+
+      <article class="post-content">
+        <p>Manual security auditing doesn't scale. When your mandate is to assess security posture across hundreds — or thousands — of government web domains, the traditional approach of a human analyst checking each domain is simply not viable. This post describes the architecture and design decisions behind CyberDrishti (साइबर दृष्टि), an AI-assisted scanning platform built to automate the discovery of exposed credentials, PII, and critical misconfigurations at national scale.</p>
+
+        <blockquote>CyberDrishti was built for an authorized government security audit mandate. All scanning operations are performed with appropriate legal authorization. No unauthorized access was performed or implied.</blockquote>
+
+        <h2>The Problem: Scale and Signal-to-Noise</h2>
+
+        <p>Government web infrastructure spans a vast and heterogeneous landscape — central ministry portals, state government sites, PSU websites, e-governance platforms, and citizen service portals. Each may expose different types of sensitive information: hardcoded database credentials in JavaScript files, Aadhaar numbers in PDF reports, AWS access keys in public repositories, unprotected admin panels, or misconfigured S3-equivalent buckets.</p>
+
+        <p>A typical human-led audit might cover 20–50 domains per analyst per day with meaningful depth. With thousands of targets, you need to triage automatically and route only high-confidence findings to human reviewers. This is where AI pipelines add genuine value — not by replacing security judgement, but by applying consistent, tireless pattern recognition at scale.</p>
+
+        <h2>Architecture Overview</h2>
+
+        <p>CyberDrishti is structured as a multi-stage pipeline:</p>
+
+        <pre><code>Discovery Layer
+    └── Domain enumeration (subfinder, amass, certificate transparency)
+    └── HTTP crawling (custom Go-based spider)
+    └── JavaScript file extraction
+    └── PDF / document harvesting
+
+Analysis Layer
+    └── Credential Detection (regex + heuristics)
+    └── PII Detection (spaCy NER pipeline)
+    └── OCR Engine (Tesseract for images/PDFs with embedded text)
+    └── Secret Scanning (custom entropy analysis)
+    └── Misconfiguration Checks (headers, TLS, CORS, exposed panels)
+
+Reporting Layer
+    └── Finding deduplication and severity scoring
+    └── Human review queue (React dashboard)
+    └── Export: JSON, PDF, CERT-IN report format</code></pre>
+
+        <h2>The NLP Pipeline — PII Detection with spaCy</h2>
+
+        <p>Standard regex-based PII detection produces enormous false positive rates in Indian government content. Generic patterns for "12-digit numbers" will match phone numbers, reference IDs, and order numbers — not just Aadhaar numbers. We needed context-aware detection.</p>
+
+        <p>spaCy's Named Entity Recognition (NER) provided the foundation. We fine-tuned a custom NER model on a labelled dataset of government document extracts to recognise Indian-specific PII entity types:</p>
+
+        <pre><code>import spacy
+from spacy.tokens import DocBin
+
+# Custom entity labels for Indian government PII
+ENTITY_LABELS = [
+    "AADHAAR",    # 12-digit Aadhaar number with contextual validation
+    "PAN",         # Permanent Account Number (format: AAAAA0000A)
+    "VOTER_ID",    # Voter ID card numbers
+    "PERSON_NAME", # Indian name patterns in sensitive document contexts
+    "PHONE_IN",    # Indian mobile/landline numbers
+    "GOV_ID",      # Generic government ID references
+]
+
+# Load fine-tuned model
+nlp = spacy.load("./models/cyberdrishti_ner_v2")
+
+def scan_text_for_pii(text: str) -> list[dict]:
+    doc = nlp(text)
+    findings = []
+    for ent in doc.ents:
+        if ent.label_ in ENTITY_LABELS:
+            findings.append({
+                "entity_type": ent.label_,
+                "value_hash": hash_pii(ent.text),  # Never store raw PII
+                "context": ent.sent.text[:200],
+                "confidence": ent._.confidence_score,
+            })
+    return findings</code></pre>
+
+        <p>Key design decision: we <strong>never store raw PII values</strong> in the finding database. Only context (surrounding text) and a one-way hash of the sensitive value is stored — enough to confirm the finding during human review without the platform itself becoming a PII repository.</p>
+
+        <h2>OCR for Embedded Sensitive Data</h2>
+
+        <p>A surprising volume of exposed government PII lives not in HTML or JavaScript but in PDF reports, scanned images, and presentations published on official portals. These are invisible to text-based scanners.</p>
+
+        <p>We integrated Tesseract OCR with image preprocessing for both raster PDFs and standalone images:</p>
+
+        <pre><code">import pytesseract
+from PIL import Image
+import pdf2image
+import cv2
+import numpy as np
+
+def extract_text_from_pdf(pdf_path: str) -> str:
+    """Convert PDF pages to images then OCR each page."""
+    images = pdf2image.convert_from_path(pdf_path, dpi=200)
+    full_text = []
+
+    for img in images:
+        # Preprocessing: grayscale, denoise, threshold
+        cv_img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2GRAY)
+        cv_img = cv2.fastNlMeansDenoising(cv_img, h=10)
+        _, cv_img = cv2.threshold(cv_img, 0, 255,
+                                   cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        # OCR with Indian language support
+        text = pytesseract.image_to_string(
+            Image.fromarray(cv_img),
+            lang='eng+hin',  # English + Hindi
+            config='--psm 6'  # Assume uniform block of text
+        )
+        full_text.append(text)
+
+    return "\n".join(full_text)</code></pre>
+
+        <p>The dual-language OCR (English + Hindi) was essential — many government documents mix English IDs and Hindi names within the same table, and single-language OCR produced garbled output for mixed-script content.</p>
+
+        <h2>Credential and Secret Detection</h2>
+
+        <p>For JavaScript files and source code fragments, we implemented a layered detection approach combining entropy analysis with pattern matching. High-entropy strings in assignment contexts are strong signals for API keys, tokens, and passwords:</p>
+
+        <pre><code>import math
+import re
+
+def shannon_entropy(data: str) -> float:
+    """Calculate Shannon entropy of a string."""
+    if not data:
+        return 0
+    entropy = 0
+    for char in set(data):
+        p = data.count(char) / len(data)
+        entropy -= p * math.log2(p)
+    return entropy
+
+def scan_js_for_secrets(js_content: str) -> list[dict]:
+    findings = []
+
+    # Pattern: variable assignment with high-entropy value
+    assignment_pattern = re.compile(
+        r'(?:const|let|var|"|\')\s*'
+        r'(?:key|token|secret|password|api_key|apikey|auth|credential)\s*'
+        r'[=:]\s*["\']([A-Za-z0-9+/=_\-]{20,})["\']',
+        re.IGNORECASE
+    )
+
+    for match in assignment_pattern.finditer(js_content):
+        value = match.group(1)
+        entropy = shannon_entropy(value)
+
+        if entropy > 4.0:  # High entropy threshold for secret-like strings
+            findings.append({
+                "type": "POTENTIAL_SECRET",
+                "entropy": round(entropy, 2),
+                "context": js_content[max(0, match.start()-50):match.end()+50],
+                "severity": "HIGH" if entropy > 4.5 else "MEDIUM"
+            })
+
+    return findings</code></pre>
+
+        <h2>Human Review Dashboard</h2>
+
+        <p>Automation produces findings at a rate no team can manually review in real time. The React dashboard implements a priority queue with three levels:</p>
+
+        <ul>
+          <li><strong>Critical (immediate):</strong> Active database credentials, live AWS keys, exposed admin panels with default passwords</li>
+          <li><strong>High (same day):</strong> High-confidence PII in public documents, exposed <code>.env</code> files, CORS misconfigurations on sensitive APIs</li>
+          <li><strong>Medium (weekly batch):</strong> Low-confidence PII, missing security headers, informational exposures</li>
+        </ul>
+
+        <p>The dashboard shows the analyst the full context window around each finding, with a one-click action to mark as confirmed, false positive, or escalated. Confirmed findings automatically populate the reporting template in CERT-IN's required format.</p>
+
+        <h2>Results and Lessons Learned</h2>
+
+        <p>Across the pilot phase of the audit, the pipeline surfaced findings that included exposed service account credentials, citizen data in publicly accessible PDF reports, and misconfigured cloud storage. The OCR component in particular found issues that had been entirely invisible to previous text-based scans.</p>
+
+        <p>Key lessons from building this system:</p>
+
+        <ul>
+          <li><strong>False positives are a feature, not a bug</strong> — at scale, you'd rather have human eyes on a false positive than miss a real credential exposure. Tune thresholds conservatively.</li>
+          <li><strong>Context windows matter enormously</strong> for NER accuracy. A 12-digit number is an Aadhaar only if it appears near "Aadhaar", "UID", or a name field — pure pattern matching misses this entirely.</li>
+          <li><strong>Rate limiting and politeness</strong> are non-negotiable for government infrastructure. Aggressive crawling can inadvertently degrade legitimate citizen services on under-resourced servers.</li>
+          <li><strong>The reporting format is half the work.</strong> Findings are only valuable if they're communicated in a format that the responsible ministry can act on. Investing in good report templates paid dividends in remediation velocity.</li>
+        </ul>
+
+        <p>AI-assisted scanning doesn't replace the skilled security analyst — it changes where their time is spent. Instead of crawling pages manually, analysts review findings, validate edge cases, and work directly with stakeholders on remediation. That's a meaningful improvement in how a security team's expertise is applied.</p>
+      </article>
+
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div><div class="author-name">Mohd Abdullah Khan</div><div class="author-title">Information Security Consultant · Abbytes</div></div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Discuss an Engagement</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- =============================================
+       BLOG POST TEMPLATE — ABBYTES
+       How to use:
+       1. Copy this file to blog/your-post-slug.html
+       2. Fill in all [BRACKETS] below
+       3. Add your content in the <article> section
+       4. Add a card to blog/index.html
+       5. Add a card to the blog section in index.html
+  ================================================ -->
+
+  <title>[POST TITLE] — Abbytes</title>
+  <meta name="description" content="[150-160 CHAR DESCRIPTION — important for SEO]" />
+  <meta name="keywords" content="[keyword1, keyword2, keyword3, cybersecurity]" />
+  <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
+  <link rel="canonical" href="https://abbytes.in/blog/[YOUR-POST-SLUG].html" />
+
+  <!-- Open Graph (controls how the post looks when shared on LinkedIn, Twitter etc) -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="[POST TITLE] — Abbytes" />
+  <meta property="og:description" content="[SHORT DESCRIPTION ~100 chars]" />
+  <meta property="og:url" content="https://abbytes.in/blog/[YOUR-POST-SLUG].html" />
+  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <meta property="article:published_time" content="[YYYY-MM-DD]" />
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <!-- Structured Data for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "[POST TITLE]",
+    "author": {"@type": "Person", "name": "Mohd Abdullah Khan", "url": "https://abbytes.in"},
+    "publisher": {"@type": "Organization", "name": "Abbytes", "url": "https://abbytes.in"},
+    "datePublished": "[YYYY-MM-DD]",
+    "description": "[SHORT DESCRIPTION]"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- NAV — don't change this -->
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li><li><a href="./index.html">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+
+      <!-- Back button — don't change -->
+      <a href="./index.html" class="post-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+        All Posts
+      </a>
+
+      <!-- POST HEADER -->
+      <div class="post-header">
+        <!--
+          Tag options (pick one that fits):
+          Mobile Security | Web Security | Forensics | AI + Security | OSINT
+          Red Teaming | Cloud Security | Malware | CTF Writeup | Tool Release
+        -->
+        <span class="post-tag">[TAG]</span>
+        <h1 class="post-title">[YOUR FULL POST TITLE]</h1>
+        <div class="post-meta">
+          <span>Mohd Abdullah Khan</span><span>·</span>
+          <time datetime="[YYYY-MM-DD]">[Month YYYY]</time><span>·</span>
+          <span>[X] min read</span>
+        </div>
+      </div>
+
+      <!--
+        HERO IMAGE — choose one color scheme that matches the topic:
+        blog-img--green  (security / mobile)
+        blog-img--red    (forensics / malware / offensive)
+        blog-img--blue   (cloud / AI / research)
+
+        Replace the SVG icon with any inline SVG you want, or leave as-is.
+      -->
+      <div class="post-hero-img blog-img--green">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1" opacity="0.5">
+          <!-- Replace with relevant icon SVG path -->
+          <rect x="5" y="2" width="14" height="20" rx="2"/>
+        </svg>
+      </div>
+
+      <!-- ============================================
+           YOUR ARTICLE CONTENT GOES BELOW
+           Available elements:
+           <h2> — Section headings
+           <h3> — Sub-headings
+           <p>  — Paragraphs
+           <pre><code> — Code blocks
+           <code> — Inline code
+           <blockquote> — Callout / note
+           <ul> / <ol> / <li> — Lists
+           <strong> — Bold text
+           <a href=""> — Links
+      ================================================ -->
+      <article class="post-content">
+
+        <p>Introduction paragraph — set the scene, describe the problem you're solving or the technique you're demonstrating. Keep it concise and hook the reader.</p>
+
+        <blockquote>
+          Add an important disclaimer or note here if needed (e.g., "all testing was authorized").
+        </blockquote>
+
+        <h2>Section One Title</h2>
+
+        <p>Your content here...</p>
+
+        <pre><code># Example code block
+command --flag argument
+output here</code></pre>
+
+        <h2>Section Two Title</h2>
+
+        <p>More content...</p>
+
+        <h3>Sub-section if needed</h3>
+
+        <p>Content...</p>
+
+        <ul>
+          <li><strong>Point one:</strong> description</li>
+          <li><strong>Point two:</strong> description</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+
+        <p>Wrap up with key takeaways. What should the reader remember? What should they do next?</p>
+
+      </article>
+
+      <!-- POST FOOTER — update CTA text if you want -->
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div>
+            <div class="author-name">Mohd Abdullah Khan</div>
+            <div class="author-title">Information Security Consultant · Abbytes</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Hire Me for a Pentest</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER — don't change -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+<!--
+  =========================================
+  CHECKLIST BEFORE PUBLISHING A NEW POST:
+  =========================================
+  [ ] Filled in all [BRACKETS] in <head>
+  [ ] Set correct <time datetime=""> value
+  [ ] Chosen correct blog-img-- color class
+  [ ] Updated post-tag to match topic
+  [ ] Added proper structured data JSON-LD
+  [ ] Added post card to /blog/index.html
+  [ ] Added post card to /#blog in index.html
+  [ ] Updated /sitemap.xml with new URL
+  =========================================
+-->

