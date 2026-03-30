@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#111110"/>
-  <polygon points="16,3 29,9.5 29,22.5 16,29 3,22.5 3,9.5" fill="none" stroke="#16a34a" stroke-width="2"/>
-  <rect x="10" y="14" width="5" height="2" rx="1" fill="#ffffff"/>
-  <rect x="10" y="17" width="8" height="2" rx="1" fill="#ffffff"/>
-  <rect x="10" y="11" width="7" height="2" rx="1" fill="#16a34a"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 32 32">
+  <rect width="30" height="30" fill="white"/>
+  <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text>
 </svg>
