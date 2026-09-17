@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HackDrac: A Free Vulnerable Web App to Practise Ethical Hacking Legally — Abbytes</title>
+  <meta name="description" content="Meet HackDrac, an intentionally vulnerable web application built for beginners to legally practise SQL injection, XSS, IDOR, and broken authentication in a safe lab environment." />
+  <meta name="keywords" content="HackDrac, vulnerable web application, learn ethical hacking, practise hacking legally, SQL injection lab, XSS practice, IDOR practice, broken authentication, web security training, beginner CTF" />
+  <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
+  <link rel="canonical" href="https://abbytes.in/blog/hackdrac-vulnerable-web-app-learn-hacking.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="HackDrac: A Free Vulnerable Web App to Practise Ethical Hacking Legally — Abbytes" />
+  <meta property="og:description" content="An intentionally vulnerable web app for legally practising SQLi, XSS, IDOR, and broken auth — built for beginners and CTF players alike." />
+  <meta property="og:url" content="https://abbytes.in/blog/hackdrac-vulnerable-web-app-learn-hacking.html" />
+  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <meta property="article:published_time" content="2025-04-05" />
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"HackDrac: A Free Vulnerable Web App to Practise Ethical Hacking Legally","author":{"@type":"Person","name":"Mohd Abdullah Khan","url":"https://abbytes.in"},"publisher":{"@type":"Organization","name":"Abbytes","url":"https://abbytes.in"},"datePublished":"2025-04-05","description":"An intentionally vulnerable web application for legally practising SQL injection, XSS, IDOR, and broken authentication."}
+  </script>
+</head>
+<body>
+
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li><li><a href="./index.html" style="color:var(--text)">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+
+      <a href="./index.html" class="post-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+        All Posts
+      </a>
+
+      <div class="post-header">
+        <span class="post-tag">Web Security</span>
+        <h1 class="post-title">HackDrac: A Free Vulnerable Web App to Practise Ethical Hacking Legally</h1>
+        <div class="post-meta">
+          <span>Mohd Abdullah Khan</span><span>·</span>
+          <time datetime="2025-04-05">April 2025</time><span>·</span>
+          <span>9 min read</span>
+        </div>
+      </div>
+
+      <div class="post-hero-img blog-img--green">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1" opacity="0.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+          <path d="M7 9l2 2-2 2M11 13h4"/>
+        </svg>
+      </div>
+
+      <article class="post-content">
+
+        <p>One of the biggest hurdles for anyone trying to get into offensive security isn't motivation — it's finding somewhere legal to practise. Scanning a real website without written authorization is a criminal offence in most jurisdictions, and the handful of well-known vulnerable-by-design apps out there (DVWA, WebGoat, bWAPP) all run locally, meaning you need Docker, Java, or PHP set up correctly before you've even sent your first payload.</p>
+
+        <p><strong>HackDrac</strong> is my answer to that friction: an intentionally vulnerable web application hosted live at <a href="http://hackdrac.abbytes.in" target="_blank" rel="noopener">hackdrac.abbytes.in</a>, built specifically so beginners, students, and aspiring bug bounty hunters have a real, browser-accessible target to attack — no local setup required.</p>
+
+        <blockquote>HackDrac is deliberately broken and exists purely for education. Every vulnerability in it is intentional and safe to exploit. Please keep all testing scoped to <strong>hackdrac.abbytes.in</strong> — never point these same techniques at systems you don't own or have explicit written permission to test.</blockquote>
+
+        <h2>Why Build Another Vulnerable App?</h2>
+
+        <p>Most of the existing training platforms teach the theory of a vulnerability class well, but they rarely mirror how these bugs actually show up in production apps — buried behind a login flow, a multi-step form, or an API that only returns useful output once you've chained two smaller mistakes together. HackDrac was designed to sit in that gap: realistic enough to build genuine intuition, but safe and contained enough that a complete beginner can't break anything (including themselves).</p>
+
+        <p>It's also hosted permanently, which matters more than it sounds. A lot of learners lose momentum the moment a lab requires them to install a VM or fight with Docker networking before they've even started hacking. With HackDrac, the barrier to entry is a browser tab.</p>
+
+        <h2>What You Can Practise</h2>
+
+        <p>HackDrac ships with a set of classic — but still extremely common in the wild — vulnerability classes:</p>
+
+        <h3>SQL Injection</h3>
+        <p>Login forms and search fields that build queries by string concatenation instead of parameterized statements. A great place to build intuition for how a single unescaped quote can turn a WHERE clause against the developer, e.g. testing an input like <code>' OR '1'='1</code> against a login field and watching authentication logic fall apart.</p>
+
+        <h3>Cross-Site Scripting (XSS)</h3>
+        <p>Reflected and stored injection points where user input is rendered back into the page without sanitisation. Good for practising payload construction beyond the classic <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> — think event-handler based payloads and filter bypasses once basic tags get stripped.</p>
+
+        <h3>Insecure Direct Object References (IDOR)</h3>
+        <p>Endpoints that trust a client-supplied identifier without checking whether the logged-in user actually owns that resource. This is one of the most common — and most underrated — bug classes in real bug bounty programs, and HackDrac gives you a sandbox to get comfortable spotting it by simply incrementing or swapping IDs in requests.</p>
+
+        <h3>Broken Authentication &amp; Session Management</h3>
+        <p>Weak session tokens, missing rate limiting, and logic flaws around login and password-reset flows — the kind of issues that don't show up in an automated scanner report but get flagged immediately by a human doing manual testing.</p>
+
+        <ul>
+          <li><strong>Realistic flow:</strong> vulnerabilities are woven into an actual login → dashboard → action flow, not isolated one-off text boxes.</li>
+          <li><strong>No setup required:</strong> it's live at a public subdomain, so you can start testing from any browser.</li>
+          <li><strong>Safe by design:</strong> nothing on the app is production data or connected to anything sensitive — break it as much as you want.</li>
+        </ul>
+
+        <h2>How to Approach It</h2>
+
+        <p>If you're new to this, resist the urge to immediately reach for automated scanners. The whole point of a lab like HackDrac is to build manual testing instinct — the same instinct that separates a report full of false positives from one that actually gets paid out on a bug bounty program. A suggested workflow:</p>
+
+        <ol>
+          <li><strong>Map the app first.</strong> Click through every page, form, and link as a normal user would. Note every place user input reaches the server — that's your attack surface.</li>
+          <li><strong>Intercept traffic with Burp Suite (Community Edition is free)</strong> or OWASP ZAP, and route your browser through the proxy so you can see and modify every request before it leaves your machine.</li>
+          <li><strong>Test one vulnerability class at a time.</strong> Don't try to find everything at once — pick SQL injection first, exhaust the login form and any search functionality, then move on to XSS.</li>
+          <li><strong>Read the response, not just the page.</strong> A lot of injection bugs give themselves away in a stack trace, an error message, or a response length difference long before you see anything change visually.</li>
+          <li><strong>Write it down.</strong> Practise documenting what you find the way you would in a real report: the request, the payload, the impact. This habit alone will make you a stronger candidate for bug bounty and junior pentest roles.</li>
+        </ol>
+
+        <pre><code># Example: routing curl through Burp's proxy to poke at an endpoint manually
+curl -x http://127.0.0.1:8080 -k http://hackdrac.abbytes.in/login \
+  -d "username=admin&password=' OR '1'='1"</code></pre>
+
+        <blockquote>Payloads like the one above are shown purely as illustration of the vulnerability class and are only intended for use against HackDrac itself.</blockquote>
+
+        <h2>Who This Is For</h2>
+
+        <ul>
+          <li><strong>Students and self-learners</strong> working through OWASP Top 10 concepts who want a real target instead of just reading about them.</li>
+          <li><strong>Aspiring bug bounty hunters</strong> looking to build manual testing muscle before touching a live scope on HackerOne or Bugcrowd.</li>
+          <li><strong>Developers</strong> who want to see, first-hand, how the mistakes they make in code translate into exploitable bugs — often the fastest way to internalise secure coding practices.</li>
+          <li><strong>CTF players</strong> warming up on web categories before a competition.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+
+        <p>Practising offensive security shouldn't require a local lab environment or a legal grey area. HackDrac exists so that anyone curious about how SQL injection, XSS, IDOR, and broken authentication actually work can go try it themselves, safely and legally, at <a href="http://hackdrac.abbytes.in" target="_blank" rel="noopener">hackdrac.abbytes.in</a>. The source is also available on <a href="https://github.com/abby2398/HackDrac" target="_blank" rel="noopener">GitHub</a> if you'd rather spin up your own local copy or study how the vulnerabilities were implemented.</p>
+
+        <p>If you end up finding something that feels like a real-world-grade bug on HackDrac, you're already thinking the way a professional penetration tester does — and if you'd rather have that skillset applied to your own application, that's exactly what I do for a living.</p>
+
+      </article>
+
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div>
+            <div class="author-name">Mohd Abdullah Khan</div>
+            <div class="author-title">Information Security Consultant · Abbytes</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Hire Me for a Pentest</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+
+</body>
+</html>
