@@ -200,6 +200,20 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .post-content pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
 .post-content blockquote { border-left: 3px solid var(--accent-green); padding: 12px 20px; background: var(--surface-alt); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 20px 0; color: var(--text-secondary); }
 .post-content strong { color: var(--text); font-weight: 600; }
+.post-content table { width: 100%; border-collapse: collapse; margin: 22px 0 28px; font-size: .875rem; }
+.post-content th, .post-content td { text-align: left; padding: 11px 14px; border: 1px solid var(--border); }
+.post-content th { background: var(--surface-alt); color: var(--text); font-weight: 600; }
+.post-content td { color: var(--text-secondary); }
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+.faq-item { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden; transition: border-color var(--t); }
+.faq-item:hover { border-color: var(--border-strong); }
+.faq-item summary { cursor: pointer; list-style: none; padding: 18px 22px; font-weight: 500; font-size: .95rem; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '+'; font-size: 1.4rem; font-weight: 300; color: var(--text-muted); flex-shrink: 0; transition: transform var(--t); line-height: 1; }
+.faq-item[open] summary::after { transform: rotate(45deg); color: var(--accent-green); }
+.faq-item .faq-answer { padding: 0 22px 20px; color: var(--text-secondary); font-size: .9rem; line-height: 1.7; }
 .post-footer { margin-top: 52px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .post-author { display: flex; align-items: center; gap: 12px; }
 .author-avatar { width: 42px; height: 42px; background: var(--text); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-mono); font-size: .78rem; font-weight: 500; }

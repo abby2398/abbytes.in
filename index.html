@@ -46,6 +46,21 @@
     "serviceType": ["Penetration Testing","Security Audit","Red Teaming","SAST","DAST","Cloud Security","Network Security","Forensics"]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "How much does a penetration test cost in India?", "acceptedAnswer": {"@type": "Answer", "text": "Pricing depends on scope, but as a rough guide: automated vulnerability scans run ₹20,000–₹50,000, a manual web or mobile app penetration test typically starts around ₹40,000 and scales into several lakhs for larger or compliance-grade engagements. The biggest factors are asset count, how much of the test is manual versus automated, and whether a retest round is included."}},
+      {"@type": "Question", "name": "What's the difference between a vulnerability assessment and a penetration test?", "acceptedAnswer": {"@type": "Answer", "text": "A vulnerability assessment (VA) is largely automated and lists known weaknesses. A penetration test (PT) is manual, human-driven work where a tester actively exploits those weaknesses and chains smaller flaws together the way a real attacker would. VAPT combines both."}},
+      {"@type": "Question", "name": "How long does an engagement take?", "acceptedAnswer": {"@type": "Answer", "text": "A single web or mobile application typically takes 3–7 business days of testing plus reporting. Larger scopes usually run 2–3 weeks, confirmed during scoping."}},
+      {"@type": "Question", "name": "Do you work with clients outside India?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Engagements are delivered remotely worldwide, with findings delivered through a detailed written report plus a walkthrough call."}},
+      {"@type": "Question", "name": "What do I actually receive at the end of the test?", "acceptedAnswer": {"@type": "Answer", "text": "A detailed report covering every finding with a severity rating, proof-of-concept steps, business impact, and remediation guidance, followed by a free retest once fixes are in place."}},
+      {"@type": "Question", "name": "Is penetration testing required for ISO 27001 or SOC 2?", "acceptedAnswer": {"@type": "Answer", "text": "Neither standard names it as a mandatory line item, but in practice both expect it as evidence of technical vulnerability management within the audit window."}},
+      {"@type": "Question", "name": "How often should we get tested?", "acceptedAnswer": {"@type": "Answer", "text": "At minimum annually, and again after any major change such as a new feature set, a significant release, or an infrastructure migration."}}
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -320,6 +335,17 @@
       </div>
       <div class="blog-grid">
         <article class="blog-card">
+          <div class="blog-img blog-img--blue">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="blog-tag">Penetration Testing</span><time datetime="2026-09">Sep 2026</time></div>
+            <h3><a href="./blog/penetration-testing-cost-india.html">How Much Does a Penetration Test Cost in India? (2026 Pricing Guide)</a></h3>
+            <p>Typical VAPT and penetration testing price ranges in India, what drives the cost, and how to spot a real manual pentest versus a scan with a logo on it.</p>
+            <a href="./blog/penetration-testing-cost-india.html" class="blog-read">Read Article →</a>
+          </div>
+        </article>
+        <article class="blog-card">
           <div class="blog-img blog-img--green">
             <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.5" opacity="0.7"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>
@@ -365,6 +391,47 @@
         </article>
       </div>
       <div class="projects-cta" style="margin-top:40px;"><a href="./blog/index.html" class="btn btn-ghost">View All Posts</a></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Questions</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Common questions about penetration testing, VAPT, and working with Abbytes.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>How much does a penetration test cost in India?</summary>
+          <div class="faq-answer">Pricing depends on scope, but as a rough guide: automated vulnerability scans run ₹20,000–₹50,000, a manual web or mobile app penetration test typically starts around ₹40,000 and scales into several lakhs for larger or compliance-grade engagements. The biggest factors are asset count, how much of the test is manual versus automated, and whether a retest round is included. See the <a href="./blog/penetration-testing-cost-india.html">full pricing breakdown</a> for typical ranges by test type.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What's the difference between a vulnerability assessment and a penetration test?</summary>
+          <div class="faq-answer">A vulnerability assessment (VA) is largely automated — it scans your systems and lists known weaknesses. A penetration test (PT) is manual, human-driven work: an experienced tester actively tries to exploit those weaknesses and chain smaller flaws together the way a real attacker would. VAPT combines both — automated coverage plus manual validation.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How long does an engagement take?</summary>
+          <div class="faq-answer">A single web or mobile application typically takes 3–7 business days of testing plus reporting. Larger scopes — multiple applications, internal networks, or compliance-driven engagements — usually run 2–3 weeks. Exact timelines are confirmed during scoping, based on your specific environment.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you work with clients outside India?</summary>
+          <div class="faq-answer">Yes. Engagements are delivered remotely worldwide — access is arranged securely (VPN, cloud lab, or scoped credentials), and findings are delivered through a detailed written report plus a walkthrough call.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What do I actually receive at the end of the test?</summary>
+          <div class="faq-answer">A detailed report covering every finding with a severity rating, proof-of-concept steps showing how it was exploited, business impact, and clear remediation guidance your developers can act on — followed by a free retest once fixes are in place to confirm they hold.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is penetration testing required for ISO 27001 or SOC 2?</summary>
+          <div class="faq-answer">Neither standard names "penetration test" as a mandatory line item, but in practice both expect it — auditors typically look for a recent test as evidence of technical vulnerability management within the audit window.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How often should we get tested?</summary>
+          <div class="faq-answer">At minimum annually, and again after any major change — a new feature set, a significant release, or an infrastructure migration — since each of those can introduce new attack surface that the last test never covered.</div>
+        </details>
+      </div>
     </div>
   </section>
 

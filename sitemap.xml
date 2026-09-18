@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://abbytes.in/blog/penetration-testing-cost-india.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://abbytes.in/blog/hackdrac-vulnerable-web-app-learn-hacking.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
