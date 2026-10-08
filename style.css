@@ -249,3 +249,32 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
   .stats-row { gap: 12px; }
   .stat-ring, .stat-ring svg { width: 66px; height: 66px; }
 }
+
+/* ---- Blog post additions (Oct 2026) ---- */
+/* Post pages have no hamburger, so keep Blog + Hire Me visible on mobile */
+@media (max-width: 768px) {
+  .nav-wrap:not(#navbar) .nav-links { display: flex; gap: 2px; }
+  .nav-wrap:not(#navbar) .nav-links li:nth-child(-n+3) { display: none; }
+}
+.post-content h2[id] { scroll-margin-top: 84px; }
+.post-content .table-scroll { overflow-x: auto; margin: 22px 0 28px; }
+.post-content .table-scroll table { margin: 0; min-width: 520px; }
+.post-toc { background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin: 0 0 32px; }
+.post-toc-label { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
+.post-toc ol { margin: 10px 0 0 20px; font-size: .9rem; }
+.post-toc li { margin-bottom: 4px; }
+.post-toc a { color: var(--text-secondary); text-decoration: none; }
+.post-toc a:hover { color: var(--text); text-decoration: underline; }
+.post-content a { color: var(--accent-green); text-underline-offset: 2px; }
+.related-posts { margin-top: 44px; padding: 22px 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.related-posts h2 { margin-top: 0 !important; font-size: 1.05rem !important; }
+.related-posts ul { margin: 0 0 0 20px; }
+.post-content .faq-list { margin: 18px 0 8px; }
+.post-content .faq-answer { padding: 0 22px 18px; font-size: .92rem; line-height: 1.7; }
+
+/* Service pages + homepage service links */
+.service-lede { font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary); margin: 6px 0 22px; max-width: 640px; }
+.service-more { margin-top: 14px; font-size: .85rem; color: var(--text-muted); }
+.service-more a { color: var(--accent-green); text-decoration: none; }
+.service-more a:hover { text-decoration: underline; }
+.post-content h3 { margin-top: 22px; }

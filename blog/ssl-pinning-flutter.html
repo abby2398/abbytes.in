@@ -20,7 +20,15 @@
   <meta property="og:title" content="Bypassing SSL Pinning in Flutter Apps on ARM64 — Abbytes" />
   <meta property="og:description" content="Binary patching libflutter.so to disable BoringSSL certificate verification — a deep technical walkthrough for security researchers." />
   <meta property="og:url" content="https://abbytes.in/blog/ssl-pinning-flutter.html" />
-  <meta property="og:image" content="https://abbytes.in/og-image.png" />
+  <meta property="og:image" content="https://abbytes.in/og/ssl-pinning-flutter.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Abbytes" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bypassing SSL Pinning in Flutter Apps on ARM64 — Abbytes" />
+  <meta name="twitter:description" content="Binary patching libflutter.so to disable BoringSSL certificate verification — a deep technical walkthrough for security researchers." />
+  <meta name="twitter:image" content="https://abbytes.in/og/ssl-pinning-flutter.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta property="article:published_time" content="2025-03-01" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,14 +36,17 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"TechArticle","headline":"Bypassing SSL Pinning in Flutter Apps on ARM64","author":{"@type":"Person","name":"Mohd Abdullah Khan","url":"https://abbytes.in"},"publisher":{"@type":"Organization","name":"Abbytes","url":"https://abbytes.in"},"datePublished":"2025-03-01","description":"Binary patching libflutter.so to disable BoringSSL certificate verification on ARM64."}
+  {"@context": "https://schema.org", "@type": "TechArticle", "headline": "Bypassing SSL Pinning in Flutter Apps on ARM64", "author": {"@type": "Person", "name": "Mohd Abdullah Khan", "url": "https://abbytes.in"}, "publisher": {"@type": "Organization", "name": "Abbytes", "url": "https://abbytes.in"}, "datePublished": "2025-03-01", "description": "Binary patching libflutter.so to disable BoringSSL certificate verification on ARM64.", "image": "https://abbytes.in/og/ssl-pinning-flutter.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://abbytes.in/blog/ssl-pinning-flutter.html"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://abbytes.in/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://abbytes.in/blog/"}, {"@type": "ListItem", "position": 3, "name": "Bypassing SSL Pinning in Flutter", "item": "https://abbytes.in/blog/ssl-pinning-flutter.html"}]}
   </script>
 </head>
 <body>
   <header class="nav-wrap scrolled">
     <nav class="nav container">
       <a href="../index.html" class="logo">
-        <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg>
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
         <span class="logo-text">Abbytes</span>
       </a>
       <ul class="nav-links">
@@ -219,8 +230,11 @@ adb install -r signed.apk</code></pre>
 
   <footer class="footer">
     <div class="container footer-inner">
-      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
-      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <a href="../index.html" class="logo">        
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
+      <p class="footer-copy">© 2026 Abbytes. All rights reserved.</p>
       <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
     </div>
   </footer>

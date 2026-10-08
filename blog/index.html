@@ -17,15 +17,32 @@
   <meta property="og:title" content="Blog — Abbytes" />
   <meta property="og:description" content="Security research, technical writeups, and practical guides." />
   <meta property="og:url" content="https://abbytes.in/blog/" />
+  <meta property="og:image" content="https://abbytes.in/og/blog.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog — Abbytes | Cybersecurity Research & Writeups" />
+  <meta name="twitter:description" content="Security research, technical writeups, and practical guides on offensive security, mobile pentesting, forensics, and AI-assisted auditing by Mohd Abdullah Khan." />
+  <meta name="twitter:image" content="https://abbytes.in/og/blog.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Abbytes Blog — Cybersecurity, Penetration Testing & Compliance", "url": "https://abbytes.in/blog/", "isPartOf": {"@type": "WebSite", "name": "Abbytes", "url": "https://abbytes.in"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://abbytes.in/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://abbytes.in/blog/"}]}
+  </script>
 </head>
 <body>
   <header class="nav-wrap scrolled">
     <nav class="nav container">
-      <a href="../index.html" class="logo"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
+      <a href="../index.html" class="logo">        
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
       <ul class="nav-links">
         <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
         <li><a href="../index.html#projects">Projects</a></li><li><a href="./index.html" style="color:var(--text)">Blog</a></li>
@@ -43,6 +60,28 @@
       </div>
 
       <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-img blog-img--blue">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="blog-tag">Compliance</span><time datetime="2026-10">Oct 2026</time></div>
+            <h3><a href="cert-in-guidelines-compliance-checklist.html">CERT-In Guidelines for Businesses (2026): Annual Audit, 6-Hour Incident Reporting &amp; Compliance Checklist</a></h3>
+            <p>6-hour incident reporting, 180-day logs, annual cyber security audits and DPDP overlap, with a practical compliance checklist.</p>
+            <a href="cert-in-guidelines-compliance-checklist.html" class="blog-read">Read Article →</a>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-img blog-img--green">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.5" opacity="0.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="blog-tag">Penetration Testing</span><time datetime="2026-10">Oct 2026</time></div>
+            <h3><a href="what-is-vapt.html">What Is VAPT? A Complete Guide to Vulnerability Assessment &amp; Penetration Testing (2026)</a></h3>
+            <p>VAPT explained: how vulnerability assessment and penetration testing differ, the types, the process, the report, and when your business needs it.</p>
+            <a href="what-is-vapt.html" class="blog-read">Read Article →</a>
+          </div>
+        </article>
         <article class="blog-card">
           <div class="blog-img blog-img--blue">
             <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
@@ -104,8 +143,11 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <a href="../index.html" class="logo"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/></svg><span class="logo-text">Abbytes</span></a>
-      <p class="footer-copy">© 2025 Abbytes. All rights reserved.</p>
+      <a href="../index.html" class="logo">        
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
+      <p class="footer-copy">© 2026 Abbytes. All rights reserved.</p>
       <div class="footer-links"><a href="../index.html#services">Services</a><a href="./index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
     </div>
   </footer>
