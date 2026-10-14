@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RT2GWEZX74"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RT2GWEZX74');
+</script>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberDrishtiX — Published at CERT-In SAMVAAD 2026 — Abbytes</title>
+  <meta name="description" content="AI-assisted continuous attack surface monitoring framework by Mohd Abdullah Khan, published in the CERT-In SAMVAAD 2026 proceedings (p. 621)." />
+  <meta name="keywords" content="CyberDrishtiX, CERT-In SAMVAAD 2026, continuous attack surface monitoring, certificate transparency log monitoring, exposed .env file detection, exposed .git repository, credential leak detection, PII exposure, AI in security audits, false positive reduction, Mohd Abdullah Khan" />
+  <meta name="author" content="Mohd Abdullah Khan" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://abbytes.in/research/cyberdrishtix.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Abbytes" />
+  <meta property="og:title" content="CyberDrishtiX — Published at CERT-In SAMVAAD 2026 — Abbytes" />
+  <meta property="og:description" content="Conference abstract by Mohd Abdullah Khan in the official CERT-In SAMVAAD 2026 proceedings, organised by CERT-In, Government of India." />
+  <meta property="og:url" content="https://abbytes.in/research/cyberdrishtix.html" />
+  <meta property="og:image" content="https://abbytes.in/og/cyberdrishtix.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CyberDrishtiX — Published at CERT-In SAMVAAD 2026 — Abbytes" />
+  <meta name="twitter:description" content="Conference abstract by Mohd Abdullah Khan in the official CERT-In SAMVAAD 2026 proceedings, organised by CERT-In, Government of India." />
+  <meta name="twitter:image" content="https://abbytes.in/og/cyberdrishtix.png" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "ScholarlyArticle", "name": "CyberDrishtiX: An AI-Assisted Framework for Continuous Attack Surface Monitoring", "headline": "CyberDrishtiX: An AI-Assisted Framework for Continuous Attack Surface Monitoring", "description": "AI-assisted continuous attack surface monitoring framework by Mohd Abdullah Khan, published in the CERT-In SAMVAAD 2026 proceedings (p. 621).", "url": "https://abbytes.in/research/cyberdrishtix.html", "image": "https://abbytes.in/og/cyberdrishtix.png", "pageStart": "621", "genre": "Conference abstract", "about": ["Attack surface monitoring", "Continuous security monitoring", "AI-assisted cyber security audit"], "isPartOf": {"@type": "Book", "name": "CERT-In Samvaad 2026 Conference Proceedings", "url": "https://www.cert-in.org.in/PDF/CP_Samvaad-2026.pdf", "publisher": {"@type": "GovernmentOrganization", "name": "Indian Computer Emergency Response Team (CERT-In)", "url": "https://www.cert-in.org.in"}}, "publisher": {"@type": "GovernmentOrganization", "name": "Indian Computer Emergency Response Team (CERT-In)", "url": "https://www.cert-in.org.in"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://abbytes.in/research/cyberdrishtix.html"}, "sameAs": ["https://www.cert-in.org.in/PDF/CP_Samvaad-2026.pdf"], "author": {"@type": "Person", "name": "Mohd Abdullah Khan", "url": "https://abbytes.in"}, "abstract": "Presents CyberDrishtiX, which continuously monitors public web portal domains, discovering assets through Certificate Transparency logs, scanning for credential leaks and PII exposures, and searching GitHub for accidentally committed secrets, with every AI-flagged observation validated by an analyst before disclosure and true and false positive rates tracked against defined quality thresholds.", "keywords": "Cyber Hygiene Monitoring, Public Web Asset Exposure, Credential Leak Detection, PII Exposure Risks, env File Misconfiguration, Git Repository Security, Certificate Transparency Log Monitoring, Automated Security Scanning, False Positive Reduction, Continuous Attack Surface Monitoring", "inLanguage": "en"}
+  </script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://abbytes.in/"}, {"@type": "ListItem", "position": 2, "name": "Publications", "item": "https://abbytes.in/#publications"}, {"@type": "ListItem", "position": 3, "name": "CyberDrishtiX", "item": "https://abbytes.in/research/cyberdrishtix.html"}]}
+  </script>
+</head>
+<body>
+
+  <header class="nav-wrap scrolled">
+    <nav class="nav container">
+      <a href="../index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html#services">Services</a></li><li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects">Projects</a></li><li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding-top:64px;">
+    <div class="post-wrap">
+
+      <a href="../index.html#publications" class="post-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+        Publications
+      </a>
+
+      <div class="post-header">
+        <span class="post-tag">Published · CERT-In SAMVAAD 2026</span>
+        <h1 class="post-title">CyberDrishtiX: An AI-Assisted Framework for Continuous Attack Surface Monitoring</h1>
+        <p class="service-lede">By Mohd Abdullah Khan. A conference abstract published in the official proceedings of CERT-In SAMVAAD 2026, India's national conference on cyber security auditing, organised by CERT-In, Government of India.</p>
+        <a href="https://www.cert-in.org.in/PDF/CP_Samvaad-2026.pdf" class="btn btn-primary" target="_blank" rel="noopener">Read the Official Proceedings (PDF) ↗</a>
+      </div>
+
+      <article class="post-content">
+
+<h2 id="publication-details">Publication Details</h2>
+<table class="pub-table">
+  <tr><th>Title</th><td>CyberDrishtiX: An AI-Assisted Framework for Continuous Attack Surface Monitoring</td></tr>
+  <tr><th>Presenter</th><td>Mohd Abdullah Khan</td></tr>
+  <tr><th>Type</th><td>Conference abstract publication</td></tr>
+  <tr><th>Track</th><td>Technical</td></tr>
+  <tr><th>Focus area</th><td>Leveraging AI in Audits and Assessments</td></tr>
+  <tr><th>Published in</th><td>CERT-In SAMVAAD 2026 Conference Proceedings, <em>Abstracts of Paper Presentations (Technical / Management Parallel Tracks)</em>, p.&nbsp;621</td></tr>
+  <tr><th>Publisher / organiser</th><td>Indian Computer Emergency Response Team (CERT-In), Ministry of Electronics and Information Technology, Government of India</td></tr>
+  <tr><th>Conference</th><td>CERT-In SAMVAAD 2026, 2nd edition, held 27–29 April 2026 at BITS Pilani, K. K. Birla Goa Campus, Goa</td></tr>
+  <tr><th>Conference theme</th><td>“Securing Digital Bharat Through Future-Ready Audits: Adapting, Assuring, Advancing”</td></tr>
+  <tr><th>Official proceedings</th><td><a href="https://www.cert-in.org.in/PDF/CP_Samvaad-2026.pdf" target="_blank" rel="noopener">cert-in.org.in/PDF/CP_Samvaad-2026.pdf</a></td></tr>
+</table>
+
+<h2 id="abstract">Abstract</h2>
+<p>India operates a vast ecosystem of public-facing web portals, along with numerous servers and digital platforms. Given the scale and continuous evolution of this landscape, maintaining consistent visibility and oversight across all assets at all times remains a significant challenge. As per our research we observed a recurring and concerning trend: live public domains with database credentials exposed in publicly accessible <code>.env</code> files, servers with openly available <code>.git</code> repositories, and sensitive information such as Aadhaar and PAN numbers embedded in downloadable PDFs accessible to anyone. These weren't sophisticated attacks; they were basic hygiene failures which were missed.</p>
+<p>This led us to build CyberDrishtiX. It continuously monitors public web portal domains discovering assets through Certificate Transparency logs, scanning for credential leaks and PII exposures, running GitHub searches for accidentally committed secrets.</p>
+<p>The more significant challenge was not detection but establishing trust. In an audit context, tools that generate a high volume of unvalidated findings can reduce effectiveness and confidence in the results. To address this, we embedded accuracy validation directly into the workflow: every AI-flagged observation undergoes analyst review prior to disclosure, and we continuously track true positive and false positive rates against defined quality thresholds.</p>
+<p><strong>Keywords:</strong> Cyber Hygiene Monitoring, Public Web Asset Exposure, Credential Leak Detection, PII Exposure Risks, <code>.env</code> File Misconfiguration, Git Repository Security, Certificate Transparency Log Monitoring, Automated Security Scanning, False Positive Reduction, Continuous Attack Surface Monitoring</p>
+
+<h2 id="about-conference">About CERT-In SAMVAAD 2026</h2>
+<p>SAMVAAD is a national annual conference organised by CERT-In to strengthen India's cyber security audit ecosystem. The 2026 edition brought together policymakers, Chief Information Security Officers, regulators, CERT-In empanelled auditing organisations, researchers, and cyber security professionals. Its programme included parallel technical and management tracks, with themes such as audit automation, continuous assurance, artificial intelligence, cloud, APIs, and supply chain security.</p>
+
+<h2 id="about-project">About the Project</h2>
+<p>CyberDrishtiX (साइबर दृष्टि), featured in the <a href="../index.html#projects">projects section</a> of this site, is an AI-assisted platform for continuous attack surface monitoring of public web portals, built for large-scale national cyber audit operations. As described in the abstract, it:</p>
+<ul>
+  <li><strong>Discovers assets</strong> through Certificate Transparency logs.</li>
+  <li><strong>Scans for credential leaks and PII exposure</strong> on public domains, including exposed configuration files, open repositories, and sensitive data in downloadable documents.</li>
+  <li><strong>Searches GitHub</strong> for accidentally committed secrets.</li>
+  <li><strong>Validates before disclosing:</strong> every AI-flagged observation goes through analyst review, and true positive and false positive rates are tracked against defined quality thresholds.</li>
+</ul>
+<p>The platform is built with Python, spaCy, OCR, Node.js, and React. Its central design principle is that in an audit context, <em>trust matters more than raw detection volume</em>: a tool that produces many unvalidated findings erodes confidence in its results.</p>
+
+<h2 id="why-it-matters">Why Continuous Attack Surface Monitoring Matters</h2>
+<p>The central observation in the abstract is that many serious exposures are not sophisticated attacks but basic hygiene failures that go unnoticed because nobody is watching continuously. An annual penetration test shows your security at one moment. New subdomains, forgotten storage buckets, leaked credentials, and misconfigured services can appear between tests. Continuous monitoring complements periodic testing by surfacing those changes sooner. If you want to understand how the two fit together, read the <a href="../blog/what-is-vapt.html">guide to what VAPT is</a> and the <a href="../blog/cert-in-guidelines-compliance-checklist.html">CERT-In guidelines and compliance checklist</a>.</p>
+
+<h2 id="work-with-me">Work With Me</h2>
+<p>The same hands-on experience behind this research goes into client engagements: <a href="../services/web-application-penetration-testing-india.html">web application penetration testing</a>, <a href="../services/mobile-application-penetration-testing-india.html">mobile application testing</a>, <a href="../services/api-security-testing-india.html">API security testing</a>, and audit-focused assessments. If you would like to discuss attack surface monitoring or a security assessment, <a href="../index.html#contact">get in touch</a>.</p>
+
+      </article>
+
+      <aside class="related-posts" aria-label="Related pages">
+        <h2>Related pages</h2>
+        <ul>
+          <li><a href="../blog/cert-in-guidelines-compliance-checklist.html">CERT-In Guidelines for Businesses (2026): Annual Audit, 6-Hour Incident Reporting &amp; Compliance Checklist</a></li>
+          <li><a href="../blog/what-is-vapt.html">What Is VAPT? A Complete Guide to Vulnerability Assessment &amp; Penetration Testing (2026)</a></li>
+          <li><a href="../services/">Penetration Testing &amp; VAPT Services</a></li>
+        </ul>
+      </aside>
+
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="author-avatar">MAK</div>
+          <div>
+            <div class="author-name">Mohd Abdullah Khan</div>
+            <div class="author-title">Information Security Consultant · Abbytes</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn btn-primary">Get a Security Quote</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="logo">        
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#16a34a" stroke-width="2.5"/><text x="16" y="21" font-family="monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">Ab</text></svg>
+        <span class="logo-text">Abbytes</span>
+      </a>
+      <p class="footer-copy">© 2026 Abbytes. All rights reserved. Delhi, India — Available Worldwide.</p>
+      <div class="footer-links"><a href="../services/">Services</a><a href="../blog/index.html">Blog</a><a href="../index.html#contact">Contact</a></div>
+    </div>
+  </footer>
+
+</body>
+</html>

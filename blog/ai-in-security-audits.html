@@ -12,8 +12,8 @@
 </script>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leveraging AI in Large-Scale Government Security Audits — Abbytes</title>
-  <meta name="description" content="Building CyberDrishti — an NLP and OCR-powered pipeline to automate detection of exposed credentials, PII, and misconfigurations across thousands of Indian government domains." />
-  <meta name="keywords" content="AI cybersecurity audits, NLP security scanning, spaCy NER credentials, OCR security, government domain audit, CERT-IN audit automation, CyberDrishti" />
+  <meta name="description" content="Building CyberDrishtiX — an NLP and OCR-powered pipeline to automate detection of exposed credentials, PII, and misconfigurations across thousands of Indian government domains." />
+  <meta name="keywords" content="AI cybersecurity audits, NLP security scanning, spaCy NER credentials, OCR security, government domain audit, CERT-IN audit automation, CyberDrishtiX" />
   <meta name="author" content="Mohd Abdullah Khan — Abbytes" />
   <link rel="canonical" href="https://abbytes.in/blog/ai-in-security-audits.html" />
   <meta property="og:type" content="article" />
@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <script type="application/ld+json">
-  {"@context": "https://schema.org", "@type": "TechArticle", "headline": "Leveraging AI in Large-Scale Government Security Audits", "description": "Building CyberDrishti — an NLP and OCR-powered pipeline to automate detection of exposed credentials, PII, and misconfigurations across thousands of Indian government domains.", "image": "https://abbytes.in/og/ai-in-security-audits.png", "datePublished": "2025-01-01", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://abbytes.in/blog/ai-in-security-audits.html"}, "author": {"@type": "Person", "name": "Mohd Abdullah Khan", "url": "https://abbytes.in"}, "publisher": {"@type": "Organization", "name": "Abbytes", "url": "https://abbytes.in"}}
+  {"@context": "https://schema.org", "@type": "TechArticle", "headline": "Leveraging AI in Large-Scale Government Security Audits", "description": "Building CyberDrishtiX — an NLP and OCR-powered pipeline to automate detection of exposed credentials, PII, and misconfigurations across thousands of Indian government domains.", "image": "https://abbytes.in/og/ai-in-security-audits.png", "datePublished": "2025-01-01", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://abbytes.in/blog/ai-in-security-audits.html"}, "author": {"@type": "Person", "name": "Mohd Abdullah Khan", "url": "https://abbytes.in"}, "publisher": {"@type": "Organization", "name": "Abbytes", "url": "https://abbytes.in"}}
   </script>
   <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://abbytes.in/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://abbytes.in/blog/"}, {"@type": "ListItem", "position": 3, "name": "AI in Government Security Audits", "item": "https://abbytes.in/blog/ai-in-security-audits.html"}]}
@@ -74,9 +74,9 @@
       </div>
 
       <article class="post-content">
-        <p>Manual security auditing doesn't scale. When your mandate is to assess security posture across hundreds — or thousands — of government web domains, the traditional approach of a human analyst checking each domain is simply not viable. This post describes the architecture and design decisions behind CyberDrishti (साइबर दृष्टि), an AI-assisted scanning platform built to automate the discovery of exposed credentials, PII, and critical misconfigurations at national scale.</p>
+        <p>Manual security auditing doesn't scale. When your mandate is to assess security posture across hundreds — or thousands — of government web domains, the traditional approach of a human analyst checking each domain is simply not viable. This post describes the architecture and design decisions behind CyberDrishtiX (साइबर दृष्टि), an AI-assisted scanning platform built to automate the discovery of exposed credentials, PII, and critical misconfigurations at national scale.</p>
 
-        <blockquote>CyberDrishti was built for an authorized government security audit mandate. All scanning operations are performed with appropriate legal authorization. No unauthorized access was performed or implied.</blockquote>
+        <blockquote>CyberDrishtiX was built for an authorized government security audit mandate. All scanning operations are performed with appropriate legal authorization. No unauthorized access was performed or implied.</blockquote>
 
         <h2>The Problem: Scale and Signal-to-Noise</h2>
 
@@ -86,7 +86,7 @@
 
         <h2>Architecture Overview</h2>
 
-        <p>CyberDrishti is structured as a multi-stage pipeline:</p>
+        <p>CyberDrishtiX is structured as a multi-stage pipeline:</p>
 
         <pre><code>Discovery Layer
     └── Domain enumeration (subfinder, amass, certificate transparency)
