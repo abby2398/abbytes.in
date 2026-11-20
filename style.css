@@ -292,3 +292,9 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .pub-table th { text-align: left; width: 32%; vertical-align: top; font-weight: 500; color: var(--text-muted); padding: 11px 14px 11px 0; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; }
 .pub-table td { padding: 11px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); line-height: 1.6; }
 @media (max-width: 600px) { .pub-table th, .pub-table td { display: block; width: 100%; } .pub-table th { padding-bottom: 0; border-bottom: 0; } .pub-card { padding: 22px 18px; } }
+/* RTO ChallanDrop post additions */
+.blog-img--red { background: radial-gradient(circle at 30% 20%, rgba(239,68,68,.15), transparent 60%), var(--surface-alt); }
+.post-content figure.post-figure { margin: 24px 0; }
+.post-content figure.post-figure img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
+.post-content figure.post-figure figcaption { font-size: .82rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+.post-content .post-note { font-size: .85rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 16px; margin-top: 32px; }
